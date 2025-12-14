@@ -1,0 +1,59 @@
+def vigenere_process(text, key, mode='encrypt'):
+    text = text.upper()
+
+    key = "".join(filter(str.isalpha, key.upper()))
+
+    if not key:
+        return text
+    result = ""
+    key_index = 0
+    ALPHABET_START = ord('A')
+    ALPHABET_LENGTH = 26
+
+    for char in text:
+        if 'A' <= char <= 'Z':
+            text_value = ord(char) - ALPHABET_START
+            key_char = key[key_index % len(key)]
+            key_value = ord(key_char) - ALPHABET_START
+
+            if mode == 'encrypt':
+                new_value = (text_value + key_value) % ALPHABET_LENGTH
+            else:
+                new_value = (text_value - key_value + ALPHABET_LENGTH) % ALPHABET_LENGTH
+
+            result_char = chr(new_value + ALPHABET_START)
+            result += result_char
+
+            key_index += 1
+        else:
+            result += char
+
+    return result
+
+def vigenere_encrypt(plaintext, key):
+    return vigenere_process(plaintext, key, 'encrypt')
+
+def vigenere_decrypt(ciphertext, key):
+    return vigenere_process(ciphertext, key, 'decrypt')
+
+if __name__ == "__main__":
+
+    print("Шифр Віженера")
+
+    text = input("Введіть текст (буде перетворено у верхній регістр): ")
+
+    while True:
+        cipher_key = input("Введіть ключ (лише латинські літери): ").upper()
+        if cipher_key.isalpha() and cipher_key:
+            break
+        else:
+            print("Некоректний ключ. Ключ має містити лише латинські літери (A-Z).")
+
+    encrypted_text = vigenere_encrypt(text, cipher_key)
+    decrypted_text = vigenere_decrypt(encrypted_text, cipher_key)
+
+    print("\nРезультати:")
+    print(f"Оригінальний текст: {text}")
+    print(f"Ключ:              {cipher_key}")
+    print(f"Зашифрований текст: {encrypted_text}")
+    print(f"Розшифрований текст: {decrypted_text}")
