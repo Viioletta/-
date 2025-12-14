@@ -1,0 +1,39 @@
+def find_weak_passwords():
+    user_data = {
+        "user_diana": "password",
+        "admin_oleg": "Pa$$word2025",
+        "guest_maria": "123456",
+        "admin_artem": "MySecretPwd",
+        "user_katya": "111111"
+    }
+
+    weak_passwords = {
+        "123456",
+        "12345678",
+        "password",
+        "qwerty",
+        "qwerty123",
+        "111111",
+        "admin",
+        "letmein"
+    }
+
+    weak_accounts = {}
+
+    print("Пошук слабких паролів...")
+
+    for username, password in user_data.items():
+        if password in weak_passwords:
+            print(f"Знайдено СЛАБКИЙ пароль: Користувач '{username}' використовує пароль '{password}'")
+            weak_accounts[username] = password
+        else:
+            print(f"Пароль користувача '{username}' вважається надійним.")
+
+    print("\nРезультат:")
+    if weak_accounts:
+        print(f"Знайдено {len(weak_accounts)} акаунтів зі слабкими паролями.")
+    else:
+        print("Слабких паролів не знайдено.")
+
+if __name__ == "__main__":
+    find_weak_passwords()
