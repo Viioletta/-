@@ -1,0 +1,25 @@
+import unittest
+import string
+from password_generator import generate_password
+
+ALL_CHARS = string.ascii_letters + string.digits + "!@#$%^&*()-_=+[]{};:,.<>?/"
+
+class TestPasswordGenerator(unittest.TestCase):
+
+    def test_length(self):
+        for length in [4, 12, 16, 50]:
+            password = generate_password(length)
+            self.assertEqual(len(password), length, f"Очікувана довжина {length}")
+
+    def test_allowed_characters(self):
+        password = generate_password(30)
+        for char in password:
+            self.assertIn(char, ALL_CHARS, f"Недозволений символ: {char}")
+
+    def test_randomness(self):
+        pwd1 = generate_password(20)
+        pwd2 = generate_password(20)
+        self.assertNotEqual(pwd1, pwd2, "Два послідовні паролі збіглися!")
+
+if __name__ == "__main__":
+    unittest.main()
