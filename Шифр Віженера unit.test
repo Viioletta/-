@@ -1,0 +1,34 @@
+import unittest
+from vigenere_cipher import vigenere_encrypt, vigenere_decrypt
+
+class TestVigenereCipher(unittest.TestCase):
+
+    def test_encrypt_then_decrypt_security(self):
+        text = "SECURITY"
+        key = "SAFE"
+        encrypted = vigenere_encrypt(text, key)
+        decrypted = vigenere_decrypt(encrypted, key)
+        self.assertEqual(decrypted, text.upper())
+
+    def test_encrypt_then_decrypt_helloworld(self):
+        text = "HELLOWORLD"
+        key = "KEY"
+        encrypted = vigenere_encrypt(text, key)
+        decrypted = vigenere_decrypt(encrypted, key)
+        self.assertEqual(decrypted, text.upper())
+
+    def test_non_letters_unchanged(self):
+        text = "HELLO 123!"
+        key = "KEY"
+        encrypted = vigenere_encrypt(text, key)
+        decrypted = vigenere_decrypt(encrypted, key)
+        self.assertEqual(decrypted, text.upper())
+
+    def test_case_insensitive(self):
+        text1 = "hello"
+        text2 = "HELLO"
+        key = "KEY"
+        self.assertEqual(vigenere_encrypt(text1, key), vigenere_encrypt(text2, key))
+
+if __name__ == "__main__":
+    unittest.main()
