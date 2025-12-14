@@ -1,0 +1,38 @@
+import unittest
+from io import StringIO
+import sys
+
+from find_simple_passwords import find_weak_passwords
+
+class TestWeakPasswords(unittest.TestCase):
+
+    def setUp(self):
+        self.captured_output = StringIO()
+        sys.stdout = self.captured_output
+
+    def tearDown(self):
+        sys.stdout = sys.__stdout__
+
+    def test_weak_passwords_found(self):
+        find_weak_passwords()
+        output = self.captured_output.getvalue()
+
+        self.assertIn("user_diana", output)
+        self.assertIn("guest_maria", output)
+        self.assertIn("user_katya", output)
+
+    def test_strong_passwords_not_marked_as_weak(self):
+        find_weak_passwords()
+        output = self.captured_output.getvalue()
+
+        self.assertNotIn("СЛАБКИЙ пароль: Користувач 'admin_oleg'", output)
+        self.assertNotIn("СЛАБКИЙ пароль: Користувач 'admin_artem'", output)
+
+    def test_total_number_of_weak_accounts(self):
+        find_weak_passwords()
+        output = self.captured_output.getvalue()
+
+        self.assertIn("Знайдено 3 акаунтів зі слабкими паролями.", output)
+
+if __name__ == "__main__":
+    unittest.main()
