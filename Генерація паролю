@@ -3,7 +3,7 @@ import string
 
 def generate_password(length):
     all_chars = string.ascii_letters + string.digits + "!@#$%^&*()-_=+[]{};:,.<>?/"
-    return ''.join(secrets.choice(all_chars) for _ in range(length))
+    return ''.join(secrets.choice(all_chars) for i in range(length))
 
 while True:
     try:
